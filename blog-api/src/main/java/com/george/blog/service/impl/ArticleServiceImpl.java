@@ -6,11 +6,16 @@ import com.george.blog.mapper.ArticleMapper;
 import com.george.blog.pojo.ArticlePO;
 import com.george.blog.pojo.ArticleVO;
 import com.george.blog.pojo.PageDTO;
+import com.george.blog.pojo.SysUserPO;
+import com.george.blog.pojo.TagVO;
 import com.george.blog.service.IArticleService;
 import com.george.blog.service.ISysUserService;
 import com.george.blog.service.ITagService;
+import org.joda.time.DateTime;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @description 文章Service实现类
@@ -36,4 +41,27 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
 
+    private List<ArticleVO> copyList(List<ArticlePO> records,boolean isAuthor,boolean isBody,boolean isTags) {
+        List<ArticleVO> articleVoList = new ArrayList<>();
+        for (ArticlePO article : records) {
+            ArticleVO articleVO = copy(article,isAuthor,isBody,isTags);
+            articleVoList.add(articleVO);
+        }
+        return articleVoList;
+    }
+
+    private ArticleVO copy(ArticlePO article,boolean isAuthor,boolean isBody,boolean isTags){
+        ArticleVO articleVo = new ArticleVO();
+        BeanUtils.copyProperties(article, articleVo);
+        if (isAuthor) {
+            SysUserPO sysUser = sysUserService.findSysUserById(article.getAuthorId());
+            articleVo.setAuthor(sysUser.getNickname());
+        }
+        articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
+        if (isTags){
+            List<TagVO> tags = tagService.findTagsByArticleId(article.getId());
+            articleVo.setTags(tags);
+        }
+        return articleVo;
+    }
 }
