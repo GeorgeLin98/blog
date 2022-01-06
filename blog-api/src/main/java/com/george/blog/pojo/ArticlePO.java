@@ -1,5 +1,6 @@
 package com.george.blog.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.george.blog.util.ConstantUtil;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import lombok.Data;
  * @author linzhuangze
  */
 @Data
+@TableName(value = "article",keepGlobalPrefix = true)
 public class ArticlePO {
     /**
      * 主键id

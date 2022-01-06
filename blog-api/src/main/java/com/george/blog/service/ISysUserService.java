@@ -8,5 +8,12 @@ import com.george.blog.pojo.SysUserPO;
  * @author linzhuangze
  */
 public interface ISysUserService {
-    SysUserPO findUserById(Long userId);
+    /**
+     * @description 查询用户信息
+     * @date 2021.01.06
+     * @author linzhuangze
+     * @param userId
+     * @return
+     */
+    SysUserPO findSysUserById(Long userId);
 }

@@ -1,16 +1,20 @@
 package com.george.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.george.blog.mapper.ArticleMapper;
+import com.george.blog.pojo.ArticleArchiveVO;
 import com.george.blog.pojo.ArticlePO;
 import com.george.blog.pojo.ArticleVO;
 import com.george.blog.pojo.PageDTO;
+import com.george.blog.pojo.ResultVO;
 import com.george.blog.pojo.SysUserPO;
 import com.george.blog.pojo.TagVO;
 import com.george.blog.service.IArticleService;
 import com.george.blog.service.ISysUserService;
 import com.george.blog.service.ITagService;
+import com.george.blog.util.ConstantUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +44,43 @@ public class ArticleServiceImpl implements IArticleService {
         return articleVoList;
     }
 
+    @Override
+    public ResultVO hotArticle(int limit) {
+        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(ArticlePO::getViewCounts);
+        queryWrapper.select(ArticlePO::getId,ArticlePO::getTitle);
+        queryWrapper.last("limit " + limit);
+        List<ArticlePO> articles = articleMapper.selectList(queryWrapper);
+        return ResultVO.success(copyList(articles,false,false,false));
+    }
 
+    @Override
+    public ResultVO newArticles(int limit) {
+        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(ArticlePO::getCreateDate);
+        queryWrapper.select(ArticlePO::getId,ArticlePO::getTitle);
+        queryWrapper.last("limit "+limit);
+        //select id,title from article order by create_date desc limit 5
+        List<ArticlePO> articles = articleMapper.selectList(queryWrapper);
+        return ResultVO.success(copyList(articles,false,false,false));
+    }
+
+    @Override
+    public ResultVO listArchives() {
+        List<ArticleArchiveVO> archivesList = articleMapper.listArchives();
+        return ResultVO.success(archivesList);
+    }
+
+    /**
+     * @description 循环转换文章VO
+     * @author linzhuangze
+     * @date 2021.01.06
+     * @param records
+     * @param isAuthor
+     * @param isBody
+     * @param isTags
+     * @return
+     */
     private List<ArticleVO> copyList(List<ArticlePO> records,boolean isAuthor,boolean isBody,boolean isTags) {
         List<ArticleVO> articleVoList = new ArrayList<>();
         for (ArticlePO article : records) {
@@ -50,18 +90,31 @@ public class ArticleServiceImpl implements IArticleService {
         return articleVoList;
     }
 
+    /**
+     * @description 转换文章VO
+     * @date 2021.01.06
+     * @author linzhuangze
+     * @param article
+     * @param isAuthor
+     * @param isBody
+     * @param isTags
+     * @return
+     */
     private ArticleVO copy(ArticlePO article,boolean isAuthor,boolean isBody,boolean isTags){
-        ArticleVO articleVo = new ArticleVO();
-        BeanUtils.copyProperties(article, articleVo);
+        ArticleVO articleVO = new ArticleVO();
+        BeanUtils.copyProperties(article, articleVO);
+        //查询文章作者信息
         if (isAuthor) {
             SysUserPO sysUser = sysUserService.findSysUserById(article.getAuthorId());
-            articleVo.setAuthor(sysUser.getNickname());
+            articleVO.setAuthor(sysUser.getNickname());
         }
-        articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
+        //转换时间
+        articleVO.setCreateDate(new DateTime(article.getCreateDate()).toString(ConstantUtil.DATE_TIME_FORMAT));
+        //查询文章标签信息
         if (isTags){
             List<TagVO> tags = tagService.findTagsByArticleId(article.getId());
-            articleVo.setTags(tags);
+            articleVO.setTags(tags);
         }
-        return articleVo;
+        return articleVO;
     }
 }

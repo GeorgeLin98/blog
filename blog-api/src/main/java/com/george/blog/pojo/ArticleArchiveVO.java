@@ -9,5 +9,16 @@ import lombok.Data;
  */
 @Data
 public class ArticleArchiveVO {
-
+    /**
+     * 年
+     */
+    private Integer year;
+    /**
+     * 月
+     */
+    private Integer month;
+    /**
+     * 归档数量
+     */
+    private Integer count;
 }

@@ -1,5 +1,6 @@
 package com.george.blog.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author linzhuangze
  */
 @Data
+@TableName(value = "sys_user",keepGlobalPrefix = true)
 public class SysUserPO {
     /**
      * 主键id
