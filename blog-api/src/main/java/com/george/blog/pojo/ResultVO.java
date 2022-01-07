@@ -18,7 +18,7 @@ public class ResultVO {
     /**
      * 是否成功响应
      */
-    private boolean success;
+    private Boolean success;
     /**
      * 返回码
      */

@@ -27,12 +27,14 @@ public class ArticlePO {
     /**
      * 评论数
      */
-    private int commentCounts;
+    private Integer commentCounts;
     /**
      * 阅读数
      */
-    private int viewCounts;
+    private Integer viewCounts;
     /**
+     *
+     *
      * 作者id
      */
     private Long authorId;
@@ -47,7 +49,7 @@ public class ArticlePO {
     /**
      * 是否置顶
      */
-    private int weight = ConstantUtil.ARTICLE_COMMON;
+    private Integer weight;
     /**
      * 创建时间
      */

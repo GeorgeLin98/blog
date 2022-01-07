@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>blog-api</module>
-        <module>blog-api</module>
     </modules>
     <packaging>pom</packaging>
     <parent>
@@ -18,7 +17,6 @@
         <version>2.5.0</version>
         <relativePath/>
     </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -85,6 +83,10 @@
                 <artifactId>commons-lang3</artifactId>
             </dependency>
             <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+            </dependency>
+            <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>3.2.2</version>
@@ -104,6 +106,16 @@
                 <artifactId>joda-time</artifactId>
                 <version>2.10.10</version>
             </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>[7.7.0, 7.7.99]</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -115,5 +127,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

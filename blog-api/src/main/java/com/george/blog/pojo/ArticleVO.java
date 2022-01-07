@@ -26,15 +26,15 @@ public class ArticleVO {
     /**
      * 评论数
      */
-    private int commentCounts;
+    private Integer commentCounts;
     /**
      * 查看量
      */
-    private int viewCounts;
+    private Integer viewCounts;
     /**
      * 是否置顶
      */
-    private int weight;
+    private Integer weight;
     /**
      * 创建时间
      */

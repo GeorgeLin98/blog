@@ -18,6 +18,7 @@ import com.george.blog.util.ConstantUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
  * @date 2021.01.06
  * @author linzhuangze
  */
+@Service
 public class ArticleServiceImpl implements IArticleService {
 
     @Autowired

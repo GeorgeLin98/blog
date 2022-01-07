@@ -4,12 +4,14 @@ import com.george.blog.mapper.SysUserMapper;
 import com.george.blog.pojo.SysUserPO;
 import com.george.blog.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @description 系统用户Service实现类
  * @date 2021.01.06
  * @author linzhuangze
  */
+@Service
 public class SysUserServiceImpl implements ISysUserService {
 
     @Autowired

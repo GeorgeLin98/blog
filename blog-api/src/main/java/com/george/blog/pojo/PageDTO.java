@@ -13,9 +13,9 @@ public class PageDTO {
     /**
      * 文章页数
      */
-    private int pageSize = ConstantUtil.ARTICLE_PAGE_SIZE;
+    private Integer pageSize = ConstantUtil.ARTICLE_PAGE_SIZE;
     /**
      * 文章初始页码
      */
-    private int page = ConstantUtil.ARTICLE_PAGE;
+    private Integer page = ConstantUtil.ARTICLE_PAGE;
 }
