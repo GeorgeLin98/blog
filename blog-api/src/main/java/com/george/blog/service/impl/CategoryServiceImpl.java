@@ -30,14 +30,14 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryVo;
     }
 
-    public CategoryVO copy(Category category){
+    public CategoryVO copy(CategoryPO category){
         CategoryVO categoryVo = new CategoryVO();
         BeanUtils.copyProperties(category,categoryVo);
         return categoryVo;
     }
-    public List<CategoryVO> copyList(List<Category> categoryList){
+    public List<CategoryVO> copyList(List<CategoryPO> categoryList){
         List<CategoryVO> categoryVoList = new ArrayList<>();
-        for (Category category : categoryList) {
+        for (CategoryPO category : categoryList) {
             categoryVoList.add(copy(category));
         }
         return categoryVoList;
