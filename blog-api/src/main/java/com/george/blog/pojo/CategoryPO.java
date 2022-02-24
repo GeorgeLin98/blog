@@ -3,22 +3,26 @@ package com.george.blog.pojo;
 import lombok.Data;
 
 /**
- * @description 分类VO
- * @date 2021.01.6
- * @author linzhuangze
+ * @description 分类PO
+ * @author georgeLin
+ * @date 2022-01-08-14:46
  */
 @Data
-public class CategoryVO {
+public class CategoryPO {
     /**
      * 主键id
      */
     private Long id;
     /**
-     * 头像
+     * 分类头像
      */
     private String avatar;
     /**
-     * 标签名字
+     * 分类名称
      */
     private String categoryName;
+    /**
+     * 分类描述
+     */
+    private String description;
 }

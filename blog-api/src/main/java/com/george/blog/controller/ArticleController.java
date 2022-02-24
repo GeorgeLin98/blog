@@ -6,11 +6,7 @@ import com.george.blog.pojo.ResultVO;
 import com.george.blog.service.IArticleService;
 import com.george.blog.util.ConstantUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -64,5 +60,11 @@ public class ArticleController {
     @PostMapping("listArchives")
     public ResultVO listArchives(){
         return articleService.listArchives();
+    }
+
+    @PostMapping("view/{id}")
+    public ResultVO findArticleById(@PathVariable("id") Long id) {
+        ArticleVO articleVo = articleService.findArticleById(id);
+        return ResultVO.success(articleVo);
     }
 }

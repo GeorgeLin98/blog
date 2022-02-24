@@ -9,4 +9,8 @@ import lombok.Data;
  */
 @Data
 public class ArticleBodyVO {
+    /**
+     * 内容
+     */
+    private String content;
 }

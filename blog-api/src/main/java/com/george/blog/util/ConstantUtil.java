@@ -46,4 +46,24 @@ public class ConstantUtil {
      * 最新文章数量
      */
     public static final int NEW_ARTICLE_SIZE = 5;
+    /**
+     * jwt过期时间：24小时
+     */
+    public static final int JWT_EXPIRE_TIME = 24 * 60 * 60 * 1000;
+    /**
+     * 用户密码加密盐值
+     */
+    public static final String  USER_PASSWORD_SALT  = "georgeLin";
+    /**
+     * redis-key:存放用户信息
+     */
+    public static final String  REDIS_USER_JWT_KEY  = "TOKEN_";
+    /**
+     * 响应头信息JSON类型
+     */
+    public static final String  RESPONSE_HEADER_JSON  = "application/json;charset=utf-8";
+    /**
+     * 一级评论
+     */
+    public static final Integer COMMENT_FIRST_LEVEL = 1;
 }

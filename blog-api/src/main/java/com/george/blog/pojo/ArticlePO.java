@@ -33,8 +33,6 @@ public class ArticlePO {
      */
     private Integer viewCounts;
     /**
-     *
-     *
      * 作者id
      */
     private Long authorId;

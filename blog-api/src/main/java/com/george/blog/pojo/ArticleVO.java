@@ -54,5 +54,5 @@ public class ArticleVO {
     /**
      * 分类
      */
-    private List<CategoryVO> categorys;
+    private CategoryVO category;
 }

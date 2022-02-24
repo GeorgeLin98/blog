@@ -43,4 +43,14 @@ public interface IArticleService {
      * @return
      */
     ResultVO listArchives();
+
+    /**
+     * @description 文章详情
+     * @author linzhuangze
+     * @date 2022.01.10
+     * @param id
+     * @return
+     */
+    ArticleVO findArticleById(Long id);
+
 }
