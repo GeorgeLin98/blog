@@ -1,5 +1,7 @@
 package com.george.blog.service;
 
+import com.george.blog.pojo.ResultVO;
+import com.george.blog.pojo.TagPO;
 import com.george.blog.pojo.TagVO;
 
 import java.util.List;
@@ -26,5 +28,13 @@ public interface ITagService {
      * @return
      */
     List<TagVO> hot(int limit);
+
+    /**
+     * @description 查询所有标签
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @return
+     */
+    List<TagPO> findAll();
 
 }

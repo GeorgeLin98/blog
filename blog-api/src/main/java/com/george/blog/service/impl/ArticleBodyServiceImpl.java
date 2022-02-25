@@ -10,6 +10,8 @@ import com.george.blog.service.IArticleBodyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @description  文章正文service实现类
  * @author georgeLin
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArticleBodyServiceImpl implements IArticleBodyService {
-    @Autowired
+    @Resource
     private ArticleBodyMapper articleBodyMapper;
 
     @Override
@@ -28,5 +30,10 @@ public class ArticleBodyServiceImpl implements IArticleBodyService {
         ArticleBodyVO articleBodyVo = new ArticleBodyVO();
         articleBodyVo.setContent(articleBody.getContent());
         return articleBodyVo;
+    }
+
+    @Override
+    public void insert(ArticleBodyPO articleBodyPO) {
+        articleBodyMapper.insert(articleBodyPO);
     }
 }

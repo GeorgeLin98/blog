@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @description 标签controller
+ * @description 分类controller
  * @author georgeLin
  * @date 2022-01-17-21:55
  */
@@ -18,6 +18,10 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    /**
+     * @description 查询文章分类接口
+     * @return
+     */
     @GetMapping
     public ResultVO listCategory() {
         return categoryService.findAll();

@@ -1,5 +1,6 @@
 package com.george.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.george.blog.mapper.TagMapper;
 import com.george.blog.pojo.TagPO;
 import com.george.blog.pojo.TagVO;
@@ -9,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements ITagService {
 
-    @Autowired
+    @Resource
     private TagMapper tagMapper;
 
     @Override
@@ -38,6 +40,12 @@ public class TagServiceImpl implements ITagService {
         }
         List<TagPO> tagList = tagMapper.findTagsByTagIds(hotsTagIds);
         return copyList(tagList);
+    }
+
+    @Override
+    public List<TagPO> findAll() {
+        List<TagPO> tags = this.tagMapper.selectList(new LambdaQueryWrapper<>());
+        return tags;
     }
 
     /**

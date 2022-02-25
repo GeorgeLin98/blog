@@ -8,6 +8,7 @@ import com.george.blog.mapper.ArticleMapper;
 import com.george.blog.pojo.*;
 import com.george.blog.service.*;
 import com.george.blog.util.ConstantUtil;
+import com.george.blog.util.UserThreadLocal;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class ArticleServiceImpl implements IArticleService {
     private IArticleBodyService articleBodyService;
     @Autowired
     private IThreadService threadService;
+    @Resource
+    private IArticleTagService articleTagService;
 
     @Override
     public List<ArticleVO> listArticlePage(PageDTO pageDTO) {
@@ -78,6 +81,47 @@ public class ArticleServiceImpl implements IArticleService {
         ArticlePO article = articleMapper.selectById(id);
         threadService.updateViewCount(articleMapper,article);
         return copy(article,true,true,true,true);
+    }
+
+    @Override
+    public ArticleVO publish(ArticleDTO articleDTO) {
+        //返回登录用户信息
+        SysUserPO sysUserPO = UserThreadLocal.get();
+        //新增文章
+        ArticlePO article = new ArticlePO();
+        article.setAuthorId(sysUserPO.getId());
+        article.setCategoryId(articleDTO.getCategory().getId());
+        article.setCreateDate(System.currentTimeMillis());
+        article.setCommentCounts(0);
+        article.setSummary(articleDTO.getSummary());
+        article.setTitle(articleDTO.getTitle());
+        article.setViewCounts(0);
+        article.setWeight(ConstantUtil.ARTICLE_COMMON);
+        article.setBodyId(-1L);
+        this.articleMapper.insert(article);
+        //新增关联标签
+        List<TagVO> tags = articleDTO.getTags();
+        if (tags != null) {
+            for (TagVO tag : tags) {
+                ArticleTagPO articleTag = new ArticleTagPO();
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(tag.getId());
+                articleTagService.insert(articleTag);
+            }
+        }
+        //新增关联正文
+        ArticleBodyPO articleBody = new ArticleBodyPO();
+        articleBody.setContent(articleDTO.getBody().getContent());
+        articleBody.setContentHtml(articleDTO.getBody().getContentHtml());
+        articleBody.setArticleId(article.getId());
+        articleBodyService.insert(articleBody);
+        //更新关联的正文
+        article.setBodyId(articleBody.getId());
+        articleMapper.updateById(article);
+        //返回新增文章
+        ArticleVO articleVo = new ArticleVO();
+        articleVo.setId(article.getId());
+        return articleVo;
     }
 
     /**

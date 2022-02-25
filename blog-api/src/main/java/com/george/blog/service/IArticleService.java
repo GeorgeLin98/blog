@@ -1,5 +1,6 @@
 package com.george.blog.service;
 
+import com.george.blog.pojo.ArticleDTO;
 import com.george.blog.pojo.ArticleVO;
 import com.george.blog.pojo.PageDTO;
 import com.george.blog.pojo.ResultVO;
@@ -53,4 +54,12 @@ public interface IArticleService {
      */
     ArticleVO findArticleById(Long id);
 
+    /**
+     * @description 发布文章
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @param articleDTO
+     * @return
+     */
+    ArticleVO publish(ArticleDTO articleDTO);
 }

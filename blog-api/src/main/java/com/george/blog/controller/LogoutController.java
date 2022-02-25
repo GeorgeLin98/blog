@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * @description 登出controller
  * @author georgeLin
  * @date 2022-01-08-14:06
  */

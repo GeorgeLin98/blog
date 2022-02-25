@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @description  标签controller
+ * @author  linzhuangze
+ * @date 2022.02.25
+ */
 @RestController
 @RequestMapping("tags")
 public class TagController {
@@ -27,5 +32,16 @@ public class TagController {
     public ResultVO listHotTags() {
         List<TagVO> tagVoList = tagsService.hot(ConstantUtil.HOT_TAG_SIZE);
         return ResultVO.success(tagVoList);
+    }
+
+    /**
+     * @description 查询所有标签
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @return
+     */
+    @GetMapping
+    public ResultVO findAll(){
+        return ResultVO.success(tagsService.findAll());
     }
 }
