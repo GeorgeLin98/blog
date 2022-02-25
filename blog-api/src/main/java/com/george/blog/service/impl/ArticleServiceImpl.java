@@ -42,10 +42,29 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public List<ArticleVO> listArticlePage(PageDTO pageDTO) {
-        QueryWrapper<ArticlePO> queryWrapper = new QueryWrapper<>();
+        //分页查询 article数据库表
         Page<ArticlePO> page = new Page<>(pageDTO.getPage(),pageDTO.getPageSize());
+        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
+        if (pageDTO.getCategoryId() != null) {
+            queryWrapper.eq(ArticlePO::getCategoryId,pageDTO.getCategoryId());
+        }
+        List<Long> articleIdList = new ArrayList<>();
+        if (pageDTO.getTagId() != null){
+            List<ArticleTagPO> articleTags = articleTagService.selectList(pageDTO.getTagId());
+            for (ArticleTagPO articleTag : articleTags) {
+                articleIdList.add(articleTag.getArticleId());
+            }
+            if (articleIdList.size() > 0){
+                queryWrapper.in(ArticlePO::getId,articleIdList);
+            }
+        }
+        //是否置顶进行排序
+        //order by create_date desc
+        queryWrapper.orderByDesc(ArticlePO::getWeight,ArticlePO::getCreateDate);
         Page<ArticlePO> articlePage = articleMapper.selectPage(page, queryWrapper);
-        List<ArticleVO> articleVoList = copyList(articlePage.getRecords(),true,true);
+        List<ArticlePO> records = articlePage.getRecords();
+        //能直接返回吗？ 很明显不能
+        List<ArticleVO> articleVoList = copyList(records,true,true);
         return articleVoList;
     }
 
