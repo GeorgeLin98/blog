@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Service
 public class CategoryServiceImpl implements ICategoryService {
-    @Autowired
+    @Resource
     private CategoryMapper categoryMapper;
 
     @Override
@@ -47,5 +48,18 @@ public class CategoryServiceImpl implements ICategoryService {
     public ResultVO findAll() {
         List<CategoryPO> categories = this.categoryMapper.selectList(new LambdaQueryWrapper<>());
         return ResultVO.success(copyList(categories));
+    }
+
+    @Override
+    public List<CategoryPO> findAllDetail() {
+        List<CategoryPO> categories = categoryMapper.selectList(new LambdaQueryWrapper<>());
+        return categories;
+    }
+
+    @Override
+    public CategoryVO categoriesDetailById(Long id) {
+        CategoryPO category = categoryMapper.selectById(id);
+        CategoryVO categoryVo = copy(category);
+        return categoryVo;
     }
 }

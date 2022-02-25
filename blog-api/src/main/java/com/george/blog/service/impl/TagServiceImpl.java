@@ -48,6 +48,19 @@ public class TagServiceImpl implements ITagService {
         return tags;
     }
 
+    @Override
+    public List<TagPO> findAllDetail() {
+        LambdaQueryWrapper<TagPO> queryWrapper = new LambdaQueryWrapper<>();
+        List<TagPO> tags = this.tagMapper.selectList(queryWrapper);
+        return tags;
+    }
+
+    @Override
+    public TagPO findDetailById(Long id) {
+        TagPO tag = tagMapper.selectById(id);
+        return tag;
+    }
+
     /**
      * @description 转换标签VO
      * @date 2021.01.06

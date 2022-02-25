@@ -18,4 +18,13 @@ public class PageDTO {
      * 文章初始页码
      */
     private Integer page = ConstantUtil.ARTICLE_PAGE;
+    /**
+     * 分类id
+     */
+    private Long categoryId;
+    /**
+     * 标签id
+     */
+    private Long tagId;
+
 }
