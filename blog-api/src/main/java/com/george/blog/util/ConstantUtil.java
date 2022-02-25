@@ -66,4 +66,8 @@ public class ConstantUtil {
      * 一级评论
      */
     public static final Integer COMMENT_FIRST_LEVEL = 1;
+    /**
+     * 点符号
+     */
+    public static final String STRING_POINT = ".";
 }
