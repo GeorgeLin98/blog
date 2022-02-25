@@ -26,5 +26,19 @@ public class PageDTO {
      * 标签id
      */
     private Long tagId;
+    /**
+     * 年
+     */
+    private String year;
+    /**
+     * 月
+     */
+    private String month;
 
+    public String getMonth() {
+        if (this.month != null && this.month.length() == 1){
+            return "0"+this.month;
+        }
+        return this.month;
+    }
 }
