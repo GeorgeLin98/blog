@@ -70,4 +70,8 @@ public class ConstantUtil {
      * 点符号
      */
     public static final String STRING_POINT = ".";
+    /**
+     * 缓存key间隔
+     */
+    public static final String  BUFFER_INTERVAL ="::";
 }

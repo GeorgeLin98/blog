@@ -1,5 +1,7 @@
 package com.george.blog.controller;
 
+import com.george.blog.aspect.CacheAnnotation;
+import com.george.blog.aspect.LogAnnotation;
 import com.george.blog.pojo.ArticleDTO;
 import com.george.blog.pojo.ArticleVO;
 import com.george.blog.pojo.PageDTO;
@@ -42,6 +44,7 @@ public class ArticleController {
      * @author linzhuangze
      * @return
      */
+    @CacheAnnotation(expire = 5 * 60 * 1000,name = "hot_article")
     @PostMapping("hot")
     public ResultVO hotArticle(){
         return articleService.hotArticle(ConstantUtil.HOT_ARTICLE_SIZE);
@@ -89,6 +92,7 @@ public class ArticleController {
      * @param articleDTO
      * @return
      */
+    @LogAnnotation(module = "文章模块",operation = "发布文章")
     @PostMapping("publish")
     public ResultVO publish(@RequestBody ArticleDTO articleDTO){
         ArticleVO articleVO = articleService.publish(articleDTO);

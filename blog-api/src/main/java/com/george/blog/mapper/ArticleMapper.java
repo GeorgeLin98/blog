@@ -1,6 +1,8 @@
 package com.george.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.george.blog.pojo.ArticleArchiveVO;
 import com.george.blog.pojo.ArticlePO;
 
@@ -19,4 +21,17 @@ public interface ArticleMapper extends BaseMapper<ArticlePO> {
      * @return
      */
     List<ArticleArchiveVO> listArchives();
+
+    /**
+     * @description 查询文章列表
+     * @date 2022.02.27
+     * @author linzhuangze
+     * @param page
+     * @param categoryId
+     * @param tagId
+     * @param year
+     * @param month
+     * @return
+     */
+    IPage<ArticlePO> listArticle(Page<ArticlePO> page, Long categoryId, Long tagId, String year, String month);
 }
