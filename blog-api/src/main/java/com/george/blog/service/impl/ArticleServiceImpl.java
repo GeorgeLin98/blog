@@ -2,6 +2,7 @@ package com.george.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.george.blog.mapper.ArticleBodyMapper;
 import com.george.blog.mapper.ArticleMapper;
@@ -42,30 +43,35 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public List<ArticleVO> listArticlePage(PageDTO pageDTO) {
-        //分页查询 article数据库表
+//        //分页查询 article数据库表
+//        Page<ArticlePO> page = new Page<>(pageDTO.getPage(),pageDTO.getPageSize());
+//        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
+//        if (pageDTO.getCategoryId() != null) {
+//            queryWrapper.eq(ArticlePO::getCategoryId,pageDTO.getCategoryId());
+//        }
+//        List<Long> articleIdList = new ArrayList<>();
+//        if (pageDTO.getTagId() != null){
+//            List<ArticleTagPO> articleTags = articleTagService.selectList(pageDTO.getTagId());
+//            for (ArticleTagPO articleTag : articleTags) {
+//                articleIdList.add(articleTag.getArticleId());
+//            }
+//            if (articleIdList.size() > 0){
+//                queryWrapper.in(ArticlePO::getId,articleIdList);
+//            }
+//        }
+//        //是否置顶进行排序
+//        //order by create_date desc
+//        queryWrapper.orderByDesc(ArticlePO::getWeight,ArticlePO::getCreateDate);
+//        Page<ArticlePO> articlePage = articleMapper.selectPage(page, queryWrapper);
+//        List<ArticlePO> records = articlePage.getRecords();
+//        //能直接返回吗？ 很明显不能
+//        List<ArticleVO> articleVoList = copyList(records,true,true);
+//        return articleVoList;
+        //改用自写sql查询列表
         Page<ArticlePO> page = new Page<>(pageDTO.getPage(),pageDTO.getPageSize());
-        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
-        if (pageDTO.getCategoryId() != null) {
-            queryWrapper.eq(ArticlePO::getCategoryId,pageDTO.getCategoryId());
-        }
-        List<Long> articleIdList = new ArrayList<>();
-        if (pageDTO.getTagId() != null){
-            List<ArticleTagPO> articleTags = articleTagService.selectList(pageDTO.getTagId());
-            for (ArticleTagPO articleTag : articleTags) {
-                articleIdList.add(articleTag.getArticleId());
-            }
-            if (articleIdList.size() > 0){
-                queryWrapper.in(ArticlePO::getId,articleIdList);
-            }
-        }
-        //是否置顶进行排序
-        //order by create_date desc
-        queryWrapper.orderByDesc(ArticlePO::getWeight,ArticlePO::getCreateDate);
-        Page<ArticlePO> articlePage = articleMapper.selectPage(page, queryWrapper);
-        List<ArticlePO> records = articlePage.getRecords();
-        //能直接返回吗？ 很明显不能
-        List<ArticleVO> articleVoList = copyList(records,true,true);
-        return articleVoList;
+        IPage<ArticlePO> articleIPage = this.articleMapper.listArticle(page,pageDTO.getCategoryId(),pageDTO.getTagId(),
+                pageDTO.getYear(),pageDTO.getMonth());
+        return copyList(articleIPage.getRecords(),true,true);
     }
 
     @Override
