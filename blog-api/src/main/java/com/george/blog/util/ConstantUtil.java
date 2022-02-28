@@ -66,4 +66,12 @@ public class ConstantUtil {
      * 一级评论
      */
     public static final Integer COMMENT_FIRST_LEVEL = 1;
+    /**
+     * 点符号
+     */
+    public static final String STRING_POINT = ".";
+    /**
+     * 缓存key间隔
+     */
+    public static final String  BUFFER_INTERVAL ="::";
 }

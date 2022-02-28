@@ -2,12 +2,14 @@ package com.george.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.george.blog.mapper.ArticleBodyMapper;
 import com.george.blog.mapper.ArticleMapper;
 import com.george.blog.pojo.*;
 import com.george.blog.service.*;
 import com.george.blog.util.ConstantUtil;
+import com.george.blog.util.UserThreadLocal;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +38,40 @@ public class ArticleServiceImpl implements IArticleService {
     private IArticleBodyService articleBodyService;
     @Autowired
     private IThreadService threadService;
+    @Resource
+    private IArticleTagService articleTagService;
 
     @Override
     public List<ArticleVO> listArticlePage(PageDTO pageDTO) {
-        QueryWrapper<ArticlePO> queryWrapper = new QueryWrapper<>();
+//        //分页查询 article数据库表
+//        Page<ArticlePO> page = new Page<>(pageDTO.getPage(),pageDTO.getPageSize());
+//        LambdaQueryWrapper<ArticlePO> queryWrapper = new LambdaQueryWrapper<>();
+//        if (pageDTO.getCategoryId() != null) {
+//            queryWrapper.eq(ArticlePO::getCategoryId,pageDTO.getCategoryId());
+//        }
+//        List<Long> articleIdList = new ArrayList<>();
+//        if (pageDTO.getTagId() != null){
+//            List<ArticleTagPO> articleTags = articleTagService.selectList(pageDTO.getTagId());
+//            for (ArticleTagPO articleTag : articleTags) {
+//                articleIdList.add(articleTag.getArticleId());
+//            }
+//            if (articleIdList.size() > 0){
+//                queryWrapper.in(ArticlePO::getId,articleIdList);
+//            }
+//        }
+//        //是否置顶进行排序
+//        //order by create_date desc
+//        queryWrapper.orderByDesc(ArticlePO::getWeight,ArticlePO::getCreateDate);
+//        Page<ArticlePO> articlePage = articleMapper.selectPage(page, queryWrapper);
+//        List<ArticlePO> records = articlePage.getRecords();
+//        //能直接返回吗？ 很明显不能
+//        List<ArticleVO> articleVoList = copyList(records,true,true);
+//        return articleVoList;
+        //改用自写sql查询列表
         Page<ArticlePO> page = new Page<>(pageDTO.getPage(),pageDTO.getPageSize());
-        Page<ArticlePO> articlePage = articleMapper.selectPage(page, queryWrapper);
-        List<ArticleVO> articleVoList = copyList(articlePage.getRecords(),true,true);
-        return articleVoList;
+        IPage<ArticlePO> articleIPage = this.articleMapper.listArticle(page,pageDTO.getCategoryId(),pageDTO.getTagId(),
+                pageDTO.getYear(),pageDTO.getMonth());
+        return copyList(articleIPage.getRecords(),true,true);
     }
 
     @Override
@@ -78,6 +106,47 @@ public class ArticleServiceImpl implements IArticleService {
         ArticlePO article = articleMapper.selectById(id);
         threadService.updateViewCount(articleMapper,article);
         return copy(article,true,true,true,true);
+    }
+
+    @Override
+    public ArticleVO publish(ArticleDTO articleDTO) {
+        //返回登录用户信息
+        SysUserPO sysUserPO = UserThreadLocal.get();
+        //新增文章
+        ArticlePO article = new ArticlePO();
+        article.setAuthorId(sysUserPO.getId());
+        article.setCategoryId(articleDTO.getCategory().getId());
+        article.setCreateDate(System.currentTimeMillis());
+        article.setCommentCounts(0);
+        article.setSummary(articleDTO.getSummary());
+        article.setTitle(articleDTO.getTitle());
+        article.setViewCounts(0);
+        article.setWeight(ConstantUtil.ARTICLE_COMMON);
+        article.setBodyId(-1L);
+        this.articleMapper.insert(article);
+        //新增关联标签
+        List<TagVO> tags = articleDTO.getTags();
+        if (tags != null) {
+            for (TagVO tag : tags) {
+                ArticleTagPO articleTag = new ArticleTagPO();
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(tag.getId());
+                articleTagService.insert(articleTag);
+            }
+        }
+        //新增关联正文
+        ArticleBodyPO articleBody = new ArticleBodyPO();
+        articleBody.setContent(articleDTO.getBody().getContent());
+        articleBody.setContentHtml(articleDTO.getBody().getContentHtml());
+        articleBody.setArticleId(article.getId());
+        articleBodyService.insert(articleBody);
+        //更新关联的正文
+        article.setBodyId(articleBody.getId());
+        articleMapper.updateById(article);
+        //返回新增文章
+        ArticleVO articleVo = new ArticleVO();
+        articleVo.setId(article.getId());
+        return articleVo;
     }
 
     /**

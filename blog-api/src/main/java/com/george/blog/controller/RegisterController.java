@@ -20,6 +20,13 @@ public class RegisterController {
     @Autowired
     private ILoginService loginService;
 
+    /**
+     * @description 注册接口
+     * @author linzhuangze
+     * @date 2022.02.25
+     * @param loginDTO
+     * @return
+     */
     @PostMapping
     public ResultVO register(@RequestBody LoginDTO loginDTO){
         return loginService.register(loginDTO);

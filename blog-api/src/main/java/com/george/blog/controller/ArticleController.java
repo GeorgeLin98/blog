@@ -1,5 +1,8 @@
 package com.george.blog.controller;
 
+import com.george.blog.aspect.CacheAnnotation;
+import com.george.blog.aspect.LogAnnotation;
+import com.george.blog.pojo.ArticleDTO;
 import com.george.blog.pojo.ArticleVO;
 import com.george.blog.pojo.PageDTO;
 import com.george.blog.pojo.ResultVO;
@@ -41,6 +44,7 @@ public class ArticleController {
      * @author linzhuangze
      * @return
      */
+    @CacheAnnotation(expire = 5 * 60 * 1000,name = "hot_article")
     @PostMapping("hot")
     public ResultVO hotArticle(){
         return articleService.hotArticle(ConstantUtil.HOT_ARTICLE_SIZE);
@@ -57,14 +61,41 @@ public class ArticleController {
         return articleService.newArticles(ConstantUtil.NEW_ARTICLE_SIZE);
     }
 
+    /**
+     * @description 查询文章接口
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @return
+     */
     @PostMapping("listArchives")
     public ResultVO listArchives(){
         return articleService.listArchives();
     }
 
+    /**
+     * @description 查询文章详情接口
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @param id
+     * @return
+     */
     @PostMapping("view/{id}")
     public ResultVO findArticleById(@PathVariable("id") Long id) {
         ArticleVO articleVo = articleService.findArticleById(id);
         return ResultVO.success(articleVo);
+    }
+
+    /**
+     * @description 发布文章
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @param articleDTO
+     * @return
+     */
+    @LogAnnotation(module = "文章模块",operation = "发布文章")
+    @PostMapping("publish")
+    public ResultVO publish(@RequestBody ArticleDTO articleDTO){
+        ArticleVO articleVO = articleService.publish(articleDTO);
+        return ResultVO.success(articleDTO);
     }
 }

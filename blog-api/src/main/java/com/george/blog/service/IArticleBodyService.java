@@ -1,5 +1,6 @@
 package com.george.blog.service;
 
+import com.george.blog.pojo.ArticleBodyPO;
 import com.george.blog.pojo.ArticleBodyVO;
 
 /**
@@ -14,4 +15,12 @@ public interface IArticleBodyService {
      * @return
      */
     ArticleBodyVO findArticleBody(Long articleId);
+
+    /**
+     * @description 新增正文po
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @param articleBodyPO
+     */
+    void  insert(ArticleBodyPO articleBodyPO);
 }

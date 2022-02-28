@@ -1,5 +1,7 @@
 package com.george.blog.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class ArticleVO {
     /**
      * 主键id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 标题
