@@ -10,7 +10,9 @@ import com.george.blog.pojo.ResultVO;
 import com.george.blog.service.IPermissionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,9 +20,10 @@ import java.util.List;
  * @author georgeLin
  * @date 2022-02-27-22:19
  */
+@Service
 public class PermissionServiceImpl implements IPermissionService {
 
-    @Autowired
+    @Resource
     private PermissionMapper permissionMapper;
 
     @Override

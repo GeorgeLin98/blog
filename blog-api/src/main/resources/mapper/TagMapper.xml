@@ -27,7 +27,7 @@
         select <include refid="all" />  from ms_tag
         <where>
             id in
-            <foreach collection="hotsTagIds" item="tagId" open="(" close=")">
+            <foreach collection="hotsTagIds" item="tagId" open="(" close=")" separator=",">
                 #{tagId}
             </foreach>
         </where>

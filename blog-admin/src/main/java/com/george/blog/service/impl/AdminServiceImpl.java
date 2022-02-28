@@ -6,12 +6,14 @@ import com.george.blog.pojo.AdminPO;
 import com.george.blog.service.IAdminService;
 import com.george.blog.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * DESCRIPTION 后台用户service实现类
  * @DATE 2022.02.28
  * @AUTHOR LINZHUANZGE
  */
+@Service
 public class AdminServiceImpl implements IAdminService {
     @Autowired
     private AdminMapper adminMapper;

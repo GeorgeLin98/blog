@@ -1,5 +1,6 @@
 package com.george.blog.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @date 2022-01-11-21:34
  */
 @Data
+@TableName(value = "comment",keepGlobalPrefix = true)
 public class CommentPO {
     /**
      * 主键id
