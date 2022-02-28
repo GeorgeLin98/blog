@@ -19,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class QiniuUtil {
 
-    public static  final String url = "https://static.mszlu.com/";
+    //访问域名(测试)
+    public static  final String url = "r803n2l9d.hn-bkt.clouddn.com";
 
     @Value("${qiniu.accessKey}")
     private  String accessKey;
@@ -33,7 +34,7 @@ public class QiniuUtil {
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
         //...生成上传凭证，然后准备上传
-        String bucket = "george";
+        String bucket = "georgelin98";
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         try {
             byte[] uploadBytes = file.getBytes();

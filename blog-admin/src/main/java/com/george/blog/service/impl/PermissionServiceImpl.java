@@ -11,6 +11,8 @@ import com.george.blog.service.IPermissionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @description 权限service实现类
  * @author georgeLin
@@ -51,5 +53,10 @@ public class PermissionServiceImpl implements IPermissionService {
     public ResultVO delete(Long id) {
         this.permissionMapper.deleteById(id);
         return ResultVO.success(null);
+    }
+
+    @Override
+    public List<PermissionPO> findPermissionsByAdminId(Long adminId) {
+        return permissionMapper.findPermissionsByAdminId(adminId);
     }
 }

@@ -4,6 +4,8 @@ import com.george.blog.pojo.PageDTO;
 import com.george.blog.pojo.PermissionPO;
 import com.george.blog.pojo.ResultVO;
 
+import java.util.List;
+
 /**
  * @description 权限service接口
  * @author georgeLin
@@ -47,4 +49,11 @@ public interface IPermissionService {
      * @return
      */
     ResultVO delete(Long id);
+
+    /**
+     * 根据后台用户id查询出所拥有的权限
+     * @param adminId
+     * @return
+     */
+    List<PermissionPO> findPermissionsByAdminId(Long adminId);
 }
