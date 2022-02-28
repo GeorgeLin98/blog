@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.george.blog.mapper.ArticleTagMapper;
 import com.george.blog.pojo.ArticleTagPO;
 import com.george.blog.service.IArticleTagService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author georgeLin
  * @date 2022-02-25-23:23
  */
+@Service
 public class ArticleTagServiceImpl implements IArticleTagService {
     @Resource
     ArticleTagMapper articleTagMapper;
@@ -28,5 +30,10 @@ public class ArticleTagServiceImpl implements IArticleTagService {
         articleTagLambdaQueryWrapper.eq(ArticleTagPO::getTagId,tagId);
         List<ArticleTagPO> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
         return articleTags;
+    }
+
+    @Override
+    public void delete(LambdaQueryWrapper<ArticleTagPO> queryWrapper) {
+        articleTagMapper.delete(queryWrapper);
     }
 }

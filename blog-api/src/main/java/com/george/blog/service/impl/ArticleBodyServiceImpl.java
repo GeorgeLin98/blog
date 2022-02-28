@@ -2,12 +2,11 @@ package com.george.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.assist.ISqlRunner;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.george.blog.mapper.ArticleBodyMapper;
-import com.george.blog.mapper.ArticleMapper;
 import com.george.blog.pojo.ArticleBodyPO;
 import com.george.blog.pojo.ArticleBodyVO;
 import com.george.blog.service.IArticleBodyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,5 +34,10 @@ public class ArticleBodyServiceImpl implements IArticleBodyService {
     @Override
     public void insert(ArticleBodyPO articleBodyPO) {
         articleBodyMapper.insert(articleBodyPO);
+    }
+
+    @Override
+    public void update(ArticleBodyPO articleBody, LambdaUpdateWrapper<ArticleBodyPO> updateWrapper) {
+        articleBodyMapper.update(articleBody,updateWrapper);
     }
 }

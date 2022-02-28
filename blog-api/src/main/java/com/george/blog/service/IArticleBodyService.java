@@ -1,5 +1,6 @@
 package com.george.blog.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.george.blog.pojo.ArticleBodyPO;
 import com.george.blog.pojo.ArticleBodyVO;
 
@@ -23,4 +24,14 @@ public interface IArticleBodyService {
      * @param articleBodyPO
      */
     void  insert(ArticleBodyPO articleBodyPO);
+
+    /**
+     * @description 更新正文po
+     * @date 2022.02.28
+     * @author linzhuangze
+     * @param articleBody
+     * @param updateWrapper
+     */
+    void update(ArticleBodyPO articleBody, LambdaUpdateWrapper<ArticleBodyPO> updateWrapper);
+
 }

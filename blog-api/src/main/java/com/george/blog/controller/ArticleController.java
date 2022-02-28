@@ -62,7 +62,7 @@ public class ArticleController {
     }
 
     /**
-     * @description 查询文章接口
+     * @description 查询文章归档列表
      * @date 2022.02.25
      * @author linzhuangze
      * @return
@@ -96,6 +96,19 @@ public class ArticleController {
     @PostMapping("publish")
     public ResultVO publish(@RequestBody ArticleDTO articleDTO){
         ArticleVO articleVO = articleService.publish(articleDTO);
-        return ResultVO.success(articleDTO);
+        return ResultVO.success(articleVO);
+    }
+
+    /**
+     * @description 编辑文章详情接口
+     * @date 2022.02.25
+     * @author linzhuangze
+     * @param id
+     * @return
+     */
+    @PostMapping("{id}")
+    public ResultVO articleById(@PathVariable("id") Long id) {
+        ArticleVO articleVo = articleService.findArticleById(id);
+        return ResultVO.success(articleVo);
     }
 }

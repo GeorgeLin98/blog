@@ -2,7 +2,9 @@ package com.george.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.george.blog.mapper.ArticleBodyMapper;
 import com.george.blog.mapper.ArticleMapper;
@@ -112,19 +114,37 @@ public class ArticleServiceImpl implements IArticleService {
     public ArticleVO publish(ArticleDTO articleDTO) {
         //返回登录用户信息
         SysUserPO sysUserPO = UserThreadLocal.get();
-        //新增文章
         ArticlePO article = new ArticlePO();
-        article.setAuthorId(sysUserPO.getId());
-        article.setCategoryId(articleDTO.getCategory().getId());
-        article.setCreateDate(System.currentTimeMillis());
-        article.setCommentCounts(0);
-        article.setSummary(articleDTO.getSummary());
-        article.setTitle(articleDTO.getTitle());
-        article.setViewCounts(0);
-        article.setWeight(ConstantUtil.ARTICLE_COMMON);
-        article.setBodyId(-1L);
-        this.articleMapper.insert(article);
-        //新增关联标签
+        //是否更新
+        boolean isEdit = false;
+        if(null == articleDTO.getId()){
+            //新增文章
+            article.setAuthorId(sysUserPO.getId());
+            article.setCategoryId(articleDTO.getCategory().getId());
+            article.setCreateDate(System.currentTimeMillis());
+            article.setCommentCounts(0);
+            article.setSummary(articleDTO.getSummary());
+            article.setTitle(articleDTO.getTitle());
+            article.setViewCounts(0);
+            article.setWeight(ConstantUtil.ARTICLE_COMMON);
+            article.setBodyId(-1L);
+            this.articleMapper.insert(article);
+        }else {
+            //更新文章
+            article.setAuthorId(sysUserPO.getId());
+            article.setTitle(articleDTO.getTitle());
+            article.setSummary(articleDTO.getSummary());
+            article.setCategoryId(articleDTO.getCategory().getId());
+            this.articleMapper.updateById(article);
+            isEdit = true;
+        }
+        //如果是更新则先删除关联标签
+        if(isEdit){
+            LambdaQueryWrapper<ArticleTagPO> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(ArticleTagPO::getArticleId,article.getId());
+            articleTagService.delete(queryWrapper);
+        }
+        //无论更新或新增都新增关联标签
         List<TagVO> tags = articleDTO.getTags();
         if (tags != null) {
             for (TagVO tag : tags) {
@@ -134,19 +154,29 @@ public class ArticleServiceImpl implements IArticleService {
                 articleTagService.insert(articleTag);
             }
         }
-        //新增关联正文
         ArticleBodyPO articleBody = new ArticleBodyPO();
-        articleBody.setContent(articleDTO.getBody().getContent());
-        articleBody.setContentHtml(articleDTO.getBody().getContentHtml());
-        articleBody.setArticleId(article.getId());
-        articleBodyService.insert(articleBody);
-        //更新关联的正文
-        article.setBodyId(articleBody.getId());
-        articleMapper.updateById(article);
+        if(isEdit){
+            //更新关联正文
+            articleBody.setContent(articleDTO.getBody().getContent());
+            articleBody.setContentHtml(articleDTO.getBody().getContentHtml());
+            articleBody.setArticleId(article.getId());
+            LambdaUpdateWrapper<ArticleBodyPO> updateWrapper = Wrappers.lambdaUpdate();
+            updateWrapper.eq(ArticleBodyPO::getArticleId,article.getId());
+            articleBodyService.update(articleBody,updateWrapper);
+        }else {
+            //新增关联正文
+            articleBody.setContent(articleDTO.getBody().getContent());
+            articleBody.setContentHtml(articleDTO.getBody().getContentHtml());
+            articleBody.setArticleId(article.getId());
+            articleBodyService.insert(articleBody);
+            //更新文章关联正文id
+            article.setBodyId(articleBody.getId());
+            articleMapper.updateById(article);
+        }
         //返回新增文章
-        ArticleVO articleVo = new ArticleVO();
-        articleVo.setId(article.getId());
-        return articleVo;
+        ArticleVO articleVO = new ArticleVO();
+        articleVO.setId(article.getId());
+        return articleVO;
     }
 
     /**

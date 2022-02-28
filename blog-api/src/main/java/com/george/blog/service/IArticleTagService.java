@@ -1,5 +1,6 @@
 package com.george.blog.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.george.blog.pojo.ArticleTagPO;
 
 import java.util.List;
@@ -27,4 +28,11 @@ public interface IArticleTagService {
      */
     List<ArticleTagPO> selectList(Long tagId);
 
+    /**
+     * @description 删除文章关联标签
+     * @date 2022.02.28
+     * @author linzhuangze
+     * @param queryWrapper
+     */
+    void delete(LambdaQueryWrapper<ArticleTagPO> queryWrapper);
 }
