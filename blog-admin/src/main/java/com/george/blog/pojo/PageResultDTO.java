@@ -1,5 +1,7 @@
 package com.george.blog.pojo;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**

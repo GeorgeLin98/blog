@@ -1,5 +1,9 @@
 package com.george.blog.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
 /**
  * @description 权限PO
  * @author georgeLin

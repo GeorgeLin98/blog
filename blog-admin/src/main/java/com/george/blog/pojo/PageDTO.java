@@ -1,6 +1,5 @@
 package com.george.blog.pojo;
 
-import com.george.blog.util.ConstantUtil;
 import lombok.Data;
 
 /**

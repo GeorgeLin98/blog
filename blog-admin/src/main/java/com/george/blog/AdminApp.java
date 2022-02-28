@@ -1,5 +1,8 @@
 package com.george.blog;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  * @description 博客后台启动主类
  * @author georgeLin

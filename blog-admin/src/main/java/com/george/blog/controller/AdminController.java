@@ -1,5 +1,19 @@
 package com.george.blog.controller;
 
+import com.george.blog.pojo.PageDTO;
+import com.george.blog.pojo.PermissionPO;
+import com.george.blog.pojo.ResultVO;
+import com.george.blog.service.IPermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+
 /**
  * @description 管理controller
  * @author georgeLin
@@ -9,26 +23,26 @@ package com.george.blog.controller;
 @RequestMapping("admin")
 public class AdminController {
 
-    @Autowired
-    private PermissionService permissionService;
+    @Resource
+    private IPermissionService permissionService;
 
     @PostMapping("permission/permissionList")
-    public Result permissionList(@RequestBody PageParam pageParam){
-        return permissionService.listPermission(pageParam);
+    public ResultVO permissionList(@RequestBody PageDTO pageDTO){
+        return permissionService.listPermission(pageDTO);
     }
 
     @PostMapping("permission/add")
-    public Result add(@RequestBody Permission permission){
+    public ResultVO add(@RequestBody PermissionPO permission){
         return permissionService.add(permission);
     }
 
     @PostMapping("permission/update")
-    public Result update(@RequestBody Permission permission){
+    public ResultVO update(@RequestBody PermissionPO permission){
         return permissionService.update(permission);
     }
 
     @GetMapping("permission/delete/{id}")
-    public Result delete(@PathVariable("id") Long id){
+    public ResultVO delete(@PathVariable("id") Long id){
         return permissionService.delete(id);
     }
 }

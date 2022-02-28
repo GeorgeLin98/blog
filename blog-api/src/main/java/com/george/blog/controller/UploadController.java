@@ -4,7 +4,7 @@ import com.george.blog.pojo.ResultVO;
 import com.george.blog.util.ConstantUtil;
 import com.george.blog.util.MsgCodeDesc;
 import com.george.blog.util.QiniuUtil;
-import com.qiniu.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
