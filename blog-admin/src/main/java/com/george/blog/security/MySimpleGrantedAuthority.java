@@ -2,7 +2,7 @@ package com.george.blog.security;
 
 import org.springframework.security.core.GrantedAuthority;
 /**
- * @description
+ * @description 用户权限类
  * @date 2022.02.28
  * @author linzhuanzge
  */

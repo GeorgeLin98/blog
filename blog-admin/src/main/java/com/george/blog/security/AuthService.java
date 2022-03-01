@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @description
+ * @description 自定义授权方法
  * @date 2022.02.28
  * @author linzhuanzge
  */

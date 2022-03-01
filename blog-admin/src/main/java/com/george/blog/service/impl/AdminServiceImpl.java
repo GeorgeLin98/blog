@@ -8,6 +8,8 @@ import com.george.blog.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * DESCRIPTION 后台用户service实现类
  * @DATE 2022.02.28
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AdminServiceImpl implements IAdminService {
-    @Autowired
+    @Resource
     private AdminMapper adminMapper;
 
     public AdminPO findAdminByUserName(String username){

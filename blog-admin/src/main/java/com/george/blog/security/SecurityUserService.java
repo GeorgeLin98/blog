@@ -3,6 +3,7 @@ package com.george.blog.security;
 import com.george.blog.pojo.AdminPO;
 import com.george.blog.service.IAdminService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class SecurityUserService implements UserDetailsService {
         if (adminUser == null){
             throw new UsernameNotFoundException("用户名不存在");
         }
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        ArrayList<MySimpleGrantedAuthority> authorities = new ArrayList<>();
         UserDetails userDetails = new User(username,adminUser.getPassword(), authorities);
         //剩下的认证 就由框架帮我们完成
         return userDetails;
