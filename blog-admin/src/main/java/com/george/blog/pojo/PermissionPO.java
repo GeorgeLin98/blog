@@ -2,6 +2,7 @@ package com.george.blog.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @date 2022-02-27-22:18
  */
 @Data
+@TableName(value = "permission" ,keepGlobalPrefix = true)
 public class PermissionPO {
     //权限主键id
     @TableId(type = IdType.AUTO)

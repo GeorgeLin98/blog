@@ -2,6 +2,7 @@ package com.george.blog.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @AUTHOR LINZHUANZGE
  */
 @Data
+@TableName(value = "admin",keepGlobalPrefix = true)
 public class AdminPO {
     //用户主键
     @TableId(type = IdType.AUTO)
